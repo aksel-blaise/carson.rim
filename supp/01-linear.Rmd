@@ -1,0 +1,143 @@
+# Linear morphometrics
+
+```{r load packages 3, echo=TRUE}
+# install required analysis packages
+#devtools::install_github("tidyverse/tidyverse")
+#devtools::install_github("mlcollyer/RRPP")
+#devtools::install_github("kassambara/ggpubr")
+#devtools::install_github("sinhrks/ggfortify")
+#devtools::install_github("daattali/ggExtra")
+# load libraries
+library(here)
+library(tidyverse)
+library(RRPP)
+library(ggpubr)
+library(ggfortify)
+library(cluster)
+library(wesanderson)
+library(ggExtra)
+```
+
+## Read data and define variables
+
+```{r setwd ld define variables 3, echo=TRUE}
+# read data
+data <- read.csv("qdata.csv", header = TRUE, as.is=TRUE)
+
+# define variables
+context <- data$context
+surf.treat <- data$surf.treat
+weight <- data$weight
+lip.len <- data$lip.length
+wall.th <- data$wall.thick
+lip.th <- data$lip.thick
+```
+
+## Boxplots for _variable_ by _context_
+
+```{r boxcontext, out.width = "100%", dpi = 300, echo=TRUE, warning=FALSE, fig.cap = "Boxplots for weight, lip length, wall thickness, and lip thickness for ceramic rims."}
+# boxplot of weight ~ context
+contextweight <- ggplot(data, aes(x = context, y = weight, color = context)) + 
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y',stackdir = 'center',dotsize = 0.3) +
+  scale_colour_manual(values = wes_palette("Moonrise2")) +
+  theme(legend.position = "none") +
+  labs(x = 'Context', y = 'Weight')
+
+# boxplot of lip length ~ context
+contextliplen <- ggplot(data, aes(x = context, y = lip.len, color = context)) + 
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y',stackdir = 'center',dotsize = 0.3) +
+  scale_colour_manual(values = wes_palette("Moonrise2")) +
+  theme(legend.position = "none") +
+  labs(x = 'Context', y = 'Lip Length')
+
+# boxplot of wall thickness ~ context
+contextwallth <- ggplot(data, aes(x = context, y = wall.th, color = context)) + 
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y',stackdir = 'center',dotsize = 0.3) +
+  scale_colour_manual(values = wes_palette("Moonrise2")) +
+  theme(legend.position = "none") +
+  labs(x = 'Context', y = 'Wall Thickness')
+
+# boxplot of lip thickness ~ context
+contextlipth <- ggplot(data, aes(x = context, y = lip.th, color = context)) + 
+  geom_boxplot() +
+  geom_dotplot(binaxis = 'y',stackdir = 'center',dotsize = 0.3) +
+  scale_colour_manual(values = wes_palette("Moonrise2")) +
+  theme(legend.position = "none") +
+  labs(x = 'Context', y = 'Lip Thickness')
+
+# render figure
+contextfigure <- ggarrange(contextweight, contextliplen, contextwallth, contextlipth,
+                  labels = c("a","b","c","d"),
+                  ncol = 2, nrow = 2)
+              
+# plot figure
+contextfigure
+```
+
+## Principal Components Analysis
+
+```{r pcacontext, out.width = "100%", dpi = 300, echo=TRUE, warning=FALSE, fig.cap = "Principal components analysis by context."}
+#attributes for plot
+df<-data[c(7:9)]
+pch.gps.gp <- c(15,16)[as.factor(context)]
+col.gps.gp <- wes_palette("Moonrise2")[as.factor(context)]
+
+#pca
+pca <- autoplot(prcomp(df),
+                data = data,
+                asp = 1,
+                shape = pch.gps.gp,
+                colour = "context",
+                variance_percentage = TRUE,
+                loadings = TRUE, 
+                loadings.colour = 'blue',
+                loadings.label = TRUE,
+                loadings.label.size = 3,
+                frame = TRUE,
+                frame.type = 't') +
+  scale_fill_manual(values = wes_palette("Moonrise2")) +
+  scale_colour_manual(values = wes_palette("Moonrise2"))
+
+ggMarginal(pca, groupColour = TRUE)
+```
+
+## Analyses of Variance (ANOVA) for _variable_ ~ _context_
+
+### _Lip length_ ~ _context_
+
+```{r anovacontextmaxl, out.width = "100%", dpi = 300, echo=TRUE}
+# anova = lip length ~ context
+contextll <- lm.rrpp(lip.len ~ context, 
+                  SS.type = "I", 
+                  data = data, iter = 9999, 
+                  print.progress = FALSE)
+anova(contextll)
+```
+
+### _Wall thickness_ of _context_
+
+```{r anovacontextmaxw, out.width = "100%", dpi = 300, echo=TRUE}
+# anova = wall thickness ~ context
+contextwth <- lm.rrpp(wall.th ~ context, 
+                  SS.type = "I", 
+                  data = data, 
+                  iter = 9999, 
+                  print.progress = FALSE)
+anova(contextwth)
+```
+
+### _Lip thickness_ ~ _context_
+
+```{r anovacontextmaxth, out.width = "100%", dpi = 300, echo=TRUE}
+# anova = lip thickness ~ context
+contextlth <- lm.rrpp(lip.th ~ context, 
+                   SS.type = "I", 
+                   data = data, 
+                   iter = 9999, 
+                   print.progress = FALSE)
+anova(contextlth)
+```
+

@@ -1,0 +1,49 @@
+--- 
+title: "Ceramic rim morphology differs significantly between contexts at the Carson site"
+author: "Robert Z. Selden, Jr."
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Morphology of ceramic rims."
+---
+
+# Preface {-}
+
+>Reproducibility---the ability to recompute results---and replicability---the chances other experimenters will achieve a consistent result---are two foundational characteristics of successful scientific research [@RN20918].
+
+This volume is written using _Markdown_, and includes all analysis code employed in the study, providing a means for others to reproduce (exactly) those results discussed and expounded upon in the following chapters. The replicable nature of this undertaking provides a means for others to critically assess and evaluate the various analytical components of this study [@RN20915;@RN20916;@RN20917], which is a necessary requirement for the production of reliable knowledge.
+
+## Basis of inquiry
+
+Using the figures and tables provided in a recent article published in [_Southeastern Archaeology_](https://doi.org/10.1080/0734578X.2021.1922072), rim images and tabular data were repurposed for a study of traditional and geometric morphometrics to assess whether ceramic rim shape differs between two contexts at the Carson site.
+
+## Primary findings
+
+### Traditional morphometrics
+* No variables differ significantly between contexts
+
+### Geometric morphometrics
+* Rim shape **differs significantly** by context
+
+## Data management
+
+The data and analysis code associated with this project can be accessed through this document or the GitHub repository [https://github.com/aksel-blaise/carson.rim](https://github.com/aksel-blaise/carson.rim), which is digitally curated on the Open Science Framework [DOI: 10.17605/OSF.IO/AE9ZM](https://osf.io/ae9zm/).
+
+## Colophon
+
+This version of the analysis was generated on `r Sys.time()` using the following computational environment and dependencies: 
+
+```{r colophon, cache = FALSE}
+# what R packages and versions were used?
+if ("devtools" %in% installed.packages()) devtools::session_info()
+```
+
+Current Git commit details are:
+
+```{r}
+# where can I find this commit? 
+if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+```
