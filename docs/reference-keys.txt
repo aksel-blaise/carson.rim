@@ -1,9 +1,9 @@
 fig:boxcontext
 fig:pcacontext
 basis-of-inquiry
+caddo-communities-of-practice
+proof-of-concept
 primary-findings
-traditional-morphometrics
-geometric-morphometrics
 data-management
 colophon
 linear-morphometrics
@@ -12,9 +12,9 @@ boxplots-for-variable-by-context
 principal-components-analysis
 analyses-of-variance-anova-for-variable-context
 lip-length-context
-wall-thickness-of-context
+wall-thickness-context
 lip-thickness-context
-geometric-morphometrics-1
+geometric-morphometrics
 load-packages-data
 generalised-procrustes-analysis
 boxplot-centroid-size

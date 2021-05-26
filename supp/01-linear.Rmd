@@ -35,7 +35,9 @@ lip.th <- data$lip.thick
 
 ## Boxplots for _variable_ by _context_
 
-```{r boxcontext, out.width = "100%", dpi = 300, echo=TRUE, warning=FALSE, fig.cap = "Boxplots for weight, lip length, wall thickness, and lip thickness for ceramic rims."}
+Weight is included in the boxplots; however, since sherd weight includes more (sometimes much more) mass than the rim itself, that variable was omitted from the subsequent analysis. The degree to which wall thickness is applicable to this inquiry is debatable; however, it was included for the proof of concept.
+
+```{r boxcontext, out.width = "100%", dpi = 300, echo=TRUE, warning=FALSE, fig.cap = "Boxplots for weight, lip length, wall thickness, and lip thickness for ceramic rims by context."}
 # boxplot of weight ~ context
 contextweight <- ggplot(data, aes(x = context, y = weight, color = context)) + 
   geom_boxplot() +
@@ -117,7 +119,7 @@ contextll <- lm.rrpp(lip.len ~ context,
 anova(contextll)
 ```
 
-### _Wall thickness_ of _context_
+### _Wall thickness_ ~ _context_
 
 ```{r anovacontextmaxw, out.width = "100%", dpi = 300, echo=TRUE}
 # anova = wall thickness ~ context
@@ -140,4 +142,3 @@ contextlth <- lm.rrpp(lip.th ~ context,
                    print.progress = FALSE)
 anova(contextlth)
 ```
-

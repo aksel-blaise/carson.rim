@@ -26,6 +26,8 @@ qdata <- read.csv("qdata.csv",
 
 ## Generalised Procrustes Analysis
 
+Landmark data were aligned to a global coordinate system [@RN11622;@RN11623;@RN11563], achieved through generalized Procrustes superimposition [@RN478] performed in R 4.0.5 [@R] using the `geomorph` library v. 4.0.0 [@RN11530;@RN1774]. Procrustes superimposition translates, scales, and rotates the coordinate data to allow for comparisons among objects [@RN11564;@RN478]. The `geomorph` package uses a partial Procrustes superimposition that projects the aligned specimens into tangent space subsequent to alignment in preparation for the use of multivariate methods that assume linear space [@RN1646;@RN11563].
+
 ```{r gpa, echo=TRUE, out.width = "100%", dpi = 300, warning=FALSE}
 # gpa
 Y.gpa <- gpagen(shapesGM, print.progress = FALSE)
@@ -64,6 +66,8 @@ csz.temp
 ```
 
 ## Principal Components Analysis
+
+Principal components analysis [@RN1746] was used to visualise shape variation among the bifaces. The shape changes described by each principal axis are commonly visualized using thin-plate spline warping of a reference 3D mesh [@RN1731;@RN479].
 
 ```{r pca, echo=TRUE, out.width = "100%", dpi = 300, warning=FALSE}
 # pca
@@ -110,7 +114,7 @@ plotRefToTarget(pca$shapes$shapes.comp2$max,
 ## Procrustes ANOVA: Shape and size
 
 ```{r ss, echo=TRUE, out.width = "100%", dpi = 300, warning=FALSE}
-# shape
+# does shape differ by context?
 fit.sh.reg <- procD.lm(shape ~ context,
                        data = gdf,
                        print.progress = FALSE,
@@ -119,7 +123,7 @@ fit.sh.reg <- procD.lm(shape ~ context,
 # shape
 anova(fit.sh.reg)
 
-# size
+# does size differ by context?
 fit.sz.reg <- procD.lm(size ~ context,
                        data = gdf,
                        print.progress = FALSE,
